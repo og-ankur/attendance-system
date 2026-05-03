@@ -1,0 +1,7 @@
+<h2>Defaulters</h2>
+{% for s in students %}
+{% set p=(s[3]/s[2]*100) if s[2]>0 else 0 %}
+{% if p<75 %}
+<p>{{s[1]}} - {{p}}%</p>
+{% endif %}
+{% endfor %}

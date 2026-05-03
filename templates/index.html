@@ -1,0 +1,9 @@
+<h2>Dashboard</h2>
+<a href="/add">Add</a> | <a href="/report">Report</a> | <a href="/chart">Chart</a> | <a href="/export">PDF</a>
+
+{% for s in students %}
+<p>{{s[1]}} 
+<a href="/mark/{{s[0]}}/present">✔</a>
+<a href="/mark/{{s[0]}}/absent">✖</a>
+</p>
+{% endfor %}
