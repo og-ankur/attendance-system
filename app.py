@@ -20,7 +20,7 @@ def init_db():
 @app.route('/', methods=['GET','POST'])
 def login():
     if request.method == 'POST':
-        if request.form['username']=="admin" and request.form['password']=="1234":
+        if request.form['username']=="ankur" and request.form['password']=="2026":
             session['user']="admin"
             return redirect('/dashboard')
     return render_template('login.html')
@@ -30,7 +30,18 @@ def dashboard():
     conn = sqlite3.connect('database.db')
     students = conn.execute("SELECT * FROM students").fetchall()
     conn.close()
-    return render_template('index.html', students=students)
+
+    good = 0
+    bad = 0
+
+    for s in students:
+        percent = (s[3]/s[2]*100) if s[2] > 0 else 0
+        if percent >= 75:
+            good += 1
+        else:
+            bad += 1
+
+    return render_template('index.html', students=students, good=good, bad=bad)
 
 @app.route('/add', methods=['GET','POST'])
 def add():
