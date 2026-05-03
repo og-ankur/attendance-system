@@ -1,5 +1,9 @@
 from flask import Flask, render_template, request, redirect, session, send_file
 import sqlite3, os
+
+import matplotlib
+matplotlib.use('Agg')
+
 import matplotlib.pyplot as plt
 from reportlab.platypus import SimpleDocTemplate, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
