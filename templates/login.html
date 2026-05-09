@@ -16,6 +16,14 @@
 🎓 Attendance System
 </h3>
 
+{% if error %}
+
+<div class="alert alert-danger">
+{{ error }}
+</div>
+
+{% endif %}
+  
 <form method="post">
 
 <input name="username" class="form-control mb-3" placeholder="Username">
