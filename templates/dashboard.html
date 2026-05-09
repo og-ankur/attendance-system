@@ -194,6 +194,7 @@ Add
 <tr>
 <th>ID</th>
 <th>Name</th>
+<th>Attendance</th>
 </tr>
 
 </thead>
@@ -206,8 +207,20 @@ Add
 
 <td>{{ s[0] }}</td>
 
+<td>{{ s[1] }}</td>
+
 <td>
-{{ s[1] }}
+
+<a href="/mark/{{s[0]}}/Present"
+class="btn btn-success btn-sm">
+Present
+</a>
+
+<a href="/mark/{{s[0]}}/Absent"
+class="btn btn-danger btn-sm">
+Absent
+</a>
+
 </td>
 
 </tr>
@@ -222,5 +235,55 @@ Add
 
 </div>
 
+<!-- ATTENDANCE HISTORY SECTION -->
+
+<div class="table-box shadow mt-4">
+
+<h4 class="mb-3">
+📅 Attendance History
+</h4>
+
+<table class="table table-bordered">
+
+<tr>
+<th>Student ID</th>
+<th>Status</th>
+<th>Date</th>
+</tr>
+
+{% for a in attendance %}
+
+<tr>
+
+<td>{{ a[1] }}</td>
+
+<td>
+
+{% if a[2] == "Present" %}
+
+<span class="badge bg-success">
+Present
+</span>
+
+{% else %}
+
+<span class="badge bg-danger">
+Absent
+</span>
+
+{% endif %}
+
+</td>
+
+<td>{{ a[3] }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+  
 </body>
 </html>
