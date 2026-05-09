@@ -127,6 +127,11 @@ def mark(id, status):
 
 # ---------------- INITIALIZE DATABASE ----------------
 
+import os
+
+if os.path.exists("database.db"):
+    os.remove("database.db")
+
 init_db()
 
 # ---------------- RUN ----------------
