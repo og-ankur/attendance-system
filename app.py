@@ -37,6 +37,8 @@ def init_db():
 @app.route('/', methods=['GET', 'POST'])
 def login():
 
+    error = ""
+
     if request.method == 'POST':
 
         username = request.form['username']
@@ -45,7 +47,7 @@ def login():
         users = {
             "ankur": "2026",
             "SRM": "SRM",
-            "admin": "1234"
+            "admin": "admin"
         }
 
         if username in users and users[username] == password:
@@ -54,8 +56,11 @@ def login():
         else:
             error = "Invalid Username or Password"
 
-    return render_template('login.html', error=error)
-
+    return render_template(
+        'login.html',
+        error=error
+    )
+    
 # ---------------- DASHBOARD ----------------
 
 @app.route('/dashboard')
