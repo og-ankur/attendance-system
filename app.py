@@ -125,10 +125,11 @@ def mark(id, status):
 
     return redirect('/dashboard')
 
+# ---------------- INITIALIZE DATABASE ----------------
+
+init_db()
+
 # ---------------- RUN ----------------
 
 if __name__ == "__main__":
-
-    init_db()
-
     app.run(host='0.0.0.0', port=5000)
