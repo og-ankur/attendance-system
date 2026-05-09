@@ -45,6 +45,24 @@ def dashboard():
 
     return render_template('dashboard.html', students=students)
 
+# ---------------- ANALYTICS ----------------
+
+@app.route('/analytics')
+def analytics():
+    conn = sqlite3.connect('database.db')
+
+    students = conn.execute("SELECT * FROM students").fetchall()
+
+    conn.close()
+
+    return render_template('analytics.html', students=students)
+
+# ---------------- SETTINGS ----------------
+
+@app.route('/settings')
+def settings():
+    return render_template('settings.html')
+
 # ---------------- ADD STUDENT ----------------
 
 @app.route('/add', methods=['POST'])
