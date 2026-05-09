@@ -1,3 +1,4 @@
+from datetime import date
 from flask import Flask, render_template, request, redirect
 import sqlite3
 
@@ -6,12 +7,24 @@ app = Flask(__name__)
 # ---------------- DATABASE ----------------
 
 def init_db():
+
     conn = sqlite3.connect('database.db')
 
+    # STUDENTS TABLE
     conn.execute('''
     CREATE TABLE IF NOT EXISTS students (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT
+    )
+    ''')
+
+    # ATTENDANCE TABLE
+    conn.execute('''
+    CREATE TABLE IF NOT EXISTS attendance (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        student_id INTEGER,
+        status TEXT,
+        date TEXT
     )
     ''')
 
@@ -41,10 +54,15 @@ def dashboard():
 
     students = conn.execute("SELECT * FROM students").fetchall()
 
+    attendance = conn.execute("SELECT * FROM attendance").fetchall()
+
     conn.close()
 
-    return render_template('dashboard.html', students=students)
-
+    return render_template(
+        'dashboard.html',
+        students=students,
+        attendance=attendance
+    )
 # ---------------- ANALYTICS ----------------
 
 @app.route('/analytics')
@@ -73,6 +91,26 @@ def add():
     conn = sqlite3.connect('database.db')
 
     conn.execute("INSERT INTO students(name) VALUES(?)", (name,))
+
+    conn.commit()
+
+    conn.close()
+
+    return redirect('/dashboard')
+
+# ---------------- MARK ATTENDANCE ----------------
+
+@app.route('/mark/<int:id>/<status>')
+def mark(id, status):
+
+    today = str(date.today())
+
+    conn = sqlite3.connect('database.db')
+
+    conn.execute(
+        "INSERT INTO attendance(student_id, status, date) VALUES(?,?,?)",
+        (id, status, today)
+    )
 
     conn.commit()
 
