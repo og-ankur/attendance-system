@@ -52,9 +52,13 @@ def dashboard():
 
     conn = sqlite3.connect('database.db')
 
-    students = conn.execute("SELECT * FROM students").fetchall()
+    students = conn.execute(
+        "SELECT * FROM students"
+    ).fetchall()
 
-    attendance = conn.execute("SELECT * FROM attendance").fetchall()
+    attendance = conn.execute(
+        "SELECT * FROM attendance"
+    ).fetchall()
 
     conn.close()
 
@@ -63,6 +67,7 @@ def dashboard():
         students=students,
         attendance=attendance
     )
+    
 # ---------------- ANALYTICS ----------------
 
 @app.route('/analytics')
