@@ -44,10 +44,10 @@ color:white;
 }
 
 .main{
-margin-left:240px;
+margin-left:220px;
 padding:30px;
-width:calc(100% - 240px);
-overflow-x:auto;
+min-height:100vh;
+overflow-x:hidden;
 }
 
 .card-box{
@@ -237,21 +237,31 @@ Absent
 
 </div>
 
-<!-- ATTENDANCE HISTORY SECTION -->
+<!-- ATTENDANCE HISTORY -->
 
-<div class="table-box shadow table-responsive mt-4">
-  
-<h4 class="mb-3">
+<!-- ATTENDANCE HISTORY -->
+
+<div class="table-box shadow mt-4">
+
+<h4 class="mb-4">
 📅 Attendance History
 </h4>
 
-<table class="table table-bordered">
+<div class="table-responsive">
+
+<table class="table table-striped table-bordered">
+
+<thead class="table-dark">
 
 <tr>
 <th>Student ID</th>
 <th>Status</th>
 <th>Date</th>
 </tr>
+
+</thead>
+
+<tbody>
 
 {% for a in attendance %}
 
@@ -282,6 +292,14 @@ Absent
 </tr>
 
 {% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
 
 </table>
 
