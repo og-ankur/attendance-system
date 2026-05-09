@@ -42,10 +42,19 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        if username == "ankur" and password == "2026":
+        users = {
+            "ankur": "2026",
+            "SRM": "SRM",
+            "admin": "1234"
+        }
+
+        if username in users and users[username] == password:
             return redirect('/dashboard')
 
-    return render_template('login.html')
+        else:
+            error = "Invalid Username or Password"
+
+    return render_template('login.html', error=error)
 
 # ---------------- DASHBOARD ----------------
 
