@@ -131,13 +131,13 @@ def mark(id, status):
     # CHECK EXISTING ATTENDANCE
     existing = conn.execute(
         '''
-        SELECT * FROM attendance
+        SELECT status FROM attendance
         WHERE student_id=? AND date=?
         ''',
         (id, today)
     ).fetchone()
 
-    # ONLY INSERT IF NOT EXISTS
+    # IF NOT EXISTS
     if not existing:
 
         conn.execute(
@@ -150,9 +150,15 @@ def mark(id, status):
 
         conn.commit()
 
+        message = f"Attendance Marked: {status}"
+
+    else:
+
+        message = f"Already Marked as {existing[0]}"
+
     conn.close()
 
-    return redirect('/dashboard')
+    return redirect(f'/dashboard?msg={message}')
 
 # ---------------- INITIALIZE DATABASE ----------------
 
