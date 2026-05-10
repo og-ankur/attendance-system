@@ -107,17 +107,11 @@ Settings
 
 {% if request.args.get('msg') %}
 
-<div class="alert alert-warning alert-dismissible fade show">
+<script>
 
-{{ request.args.get('msg') }}
+alert("{{ request.args.get('msg') }}");
 
-<button
-type="button"
-class="btn-close"
-data-bs-dismiss="alert">
-</button>
-
-</div>
+</script>
 
 {% endif %}
   
