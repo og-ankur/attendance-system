@@ -128,12 +128,27 @@ def mark(id, status):
 
     conn = sqlite3.connect('database.db')
 
-    conn.execute(
-        "INSERT INTO attendance(student_id, status, date) VALUES(?,?,?)",
-        (id, status, today)
-    )
+    # CHECK EXISTING ATTENDANCE
+    existing = conn.execute(
+        '''
+        SELECT * FROM attendance
+        WHERE student_id=? AND date=?
+        ''',
+        (id, today)
+    ).fetchone()
 
-    conn.commit()
+    # ONLY INSERT IF NOT EXISTS
+    if not existing:
+
+        conn.execute(
+            '''
+            INSERT INTO attendance(student_id, status, date)
+            VALUES(?,?,?)
+            ''',
+            (id, status, today)
+        )
+
+        conn.commit()
 
     conn.close()
 
