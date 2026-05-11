@@ -79,10 +79,11 @@ def dashboard():
     conn.close()
 
     return render_template(
-        'dashboard.html',
-        students=students,
-        attendance=attendance
-    )
+    'dashboard.html',
+    students=students,
+    attendance=attendance,
+    today=date.today()
+)
     
 # ---------------- ANALYTICS ----------------
 
