@@ -163,6 +163,37 @@ def mark(id, status):
 
     return redirect(f'/dashboard?msg={message}')
 
+@app.route('/export')
+def export():
+
+    conn = sqlite3.connect('database.db')
+
+    data = conn.execute('''
+    SELECT attendance.id,
+           students.name,
+           attendance.status,
+           attendance.date
+    FROM attendance
+    JOIN students
+    ON students.id = attendance.student_id
+    ''').fetchall()
+
+    conn.close()
+
+    df = pd.DataFrame(
+        data,
+        columns=['ID', 'Student Name', 'Status', 'Date']
+    )
+
+    file_name = "attendance_report.xlsx"
+
+    df.to_excel(file_name, index=False)
+
+    return send_file(
+        file_name,
+        as_attachment=True
+    )
+
 # ---------------- INITIALIZE DATABASE ----------------
 
 init_db()
