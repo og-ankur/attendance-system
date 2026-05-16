@@ -1,6 +1,7 @@
 from datetime import date
 from flask import Flask, render_template, request, redirect
 import sqlite3
+import os
 import pandas as pd
 from flask import send_file
 
@@ -205,6 +206,68 @@ def export():
         file_name,
         as_attachment=True
     )
+
+@app.route('/upload', methods=['POST'])
+def upload():
+
+    file = request.files['file']
+
+    if file:
+
+        file_path = "upload.xlsx"
+
+        file.save(file_path)
+
+        df = pd.read_excel(file_path)
+
+        conn = sqlite3.connect('database.db')
+
+        for index, row in df.iterrows():
+
+            student_id = row['Student ID']
+
+            status = row['Status']
+
+            date_value = str(row['Date'])
+
+            existing = conn.execute(
+                '''
+                SELECT * FROM attendance
+                WHERE student_id=? AND date=?
+                ''',
+                (student_id, date_value)
+            ).fetchone()
+
+            if not existing:
+
+                conn.execute(
+                    '''
+                    INSERT INTO attendance(student_id, status, date)
+                    VALUES(?,?,?)
+                    ''',
+                    (student_id, status, date_value)
+                )
+
+        conn.commit()
+
+        conn.close()
+
+        os.remove(file_path)
+
+    return redirect('/offline')
+
+@app.route('/reset_attendance')
+def reset_attendance():
+
+    conn = sqlite3.connect('database.db')
+
+    conn.execute("DELETE FROM attendance")
+
+    conn.commit()
+
+    conn.close()
+
+    return redirect('/dashboard')
 
 # ---------------- INITIALIZE DATABASE ----------------
 
