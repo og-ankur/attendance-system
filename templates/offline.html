@@ -51,13 +51,36 @@ Download Format
 
 </a>
 
-<button class="btn btn-primary btn-lg">
+<form
+action="/upload"
+method="post"
+enctype="multipart/form-data">
+
+<input
+type="file"
+name="file"
+class="form-control mb-3"
+required>
+
+<button
+class="btn btn-primary btn-lg">
 
 Upload Excel
 
 </button>
 
+</form>
+
 <br><br>
+
+  <a href="/reset_attendance"
+class="btn btn-danger mb-3">
+
+Reset Attendance
+
+</a>
+
+<br>
 
 <a href="/dashboard" class="btn btn-dark">
 
