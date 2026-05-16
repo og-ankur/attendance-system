@@ -99,6 +99,12 @@ def analytics():
 
     return render_template('analytics.html', students=students)
 
+
+@app.route('/offline')
+def offline():
+
+    return render_template('offline.html')
+
 # ---------------- SETTINGS ----------------
 
 @app.route('/settings')
@@ -182,8 +188,14 @@ def export():
 
     df = pd.DataFrame(
         data,
-        columns=['ID', 'Student Name', 'Status', 'Date']
-    )
+        columns=[
+    'Student ID',
+    'Student Name',
+    'Status',
+    'Date'
+ ]
+        
+)
 
     file_name = "attendance_report.xlsx"
 
