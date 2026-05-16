@@ -222,7 +222,7 @@ def upload():
 
         conn = sqlite3.connect('database.db')
 
-for index, row in df.iterrows():
+        for index, row in df.iterrows():
 
             student_id = row['Student ID']
 
