@@ -228,10 +228,30 @@ def upload():
 
             status = row['Status']
 
+            student_name = row['Student Name']
+            
             date_value = pd.to_datetime(
     row['Date']
 ).strftime('%Y-%m-%d')
 
+student_exists = conn.execute(
+    '''
+    SELECT * FROM students
+    WHERE id=?
+    ''',
+    (student_id,)
+).fetchone()
+
+if not student_exists:
+
+    conn.execute(
+        '''
+        INSERT INTO students(id, name)
+        VALUES(?,?)
+        ''',
+        (student_id, student_name)
+    )
+            
             existing = conn.execute(
                 '''
                 SELECT * FROM attendance
