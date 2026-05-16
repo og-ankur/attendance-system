@@ -228,7 +228,9 @@ def upload():
 
             status = row['Status']
 
-            date_value = str(row['Date'])
+            date_value = pd.to_datetime(
+    row['Date']
+).strftime('%Y-%m-%d')
 
             existing = conn.execute(
                 '''
