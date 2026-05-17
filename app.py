@@ -1,11 +1,13 @@
 from datetime import date
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, session
 import sqlite3
 import os
 import pandas as pd
 from flask import send_file
 
 app = Flask(__name__)
+
+app.secret_key = "attendance_secret"
 
 # ---------------- DATABASE ----------------
 
@@ -54,6 +56,9 @@ def login():
         }
 
         if username in users and users[username] == password:
+
+            session['user'] = username
+            
             return redirect('/dashboard')
 
         else:
@@ -69,6 +74,10 @@ def login():
 @app.route('/dashboard')
 def dashboard():
 
+    if 'user' not in session:
+
+        return redirect('/')
+    
     conn = sqlite3.connect('database.db')
 
     students = conn.execute(
@@ -105,6 +114,13 @@ def analytics():
 def offline():
 
     return render_template('offline.html')
+
+@app.route('/logout')
+def logout():
+
+    session.pop('user', None)
+
+    return redirect('/')
 
 # ---------------- SETTINGS ----------------
 
@@ -176,7 +192,7 @@ def export():
     conn = sqlite3.connect('database.db')
 
     data = conn.execute('''
-    SELECT attendance.id,
+    SELECT attendance.student_id,
            students.name,
            attendance.status,
            attendance.date
